@@ -58,7 +58,7 @@ async def update_status():
             await bot.change_presence(
                 activity=discord.Activity(
                     type=discord.ActivityType.watching,
-                    name=f"otal players online..."
+                    name=f"total players online..."
                 )
             )
             logger.info("Successfully updated bot status")
