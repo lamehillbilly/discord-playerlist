@@ -47,7 +47,7 @@ async def update_status():
             # Update nickname in all guilds
             for guild in bot.guilds:
                 try:
-                    await guild.me.edit(nick=f"{total_players} Players Online")
+                    await guild.me.edit(nick=f"Online: {total_players} ")
                     logger.info(f"Updated nickname in {guild.name}")
                 except discord.Forbidden:
                     logger.warning(f"Cannot update nickname in {guild.name} - Missing permissions")
@@ -58,7 +58,7 @@ async def update_status():
             await bot.change_presence(
                 activity=discord.Activity(
                     type=discord.ActivityType.watching,
-                    name=f"{total_players} players online"
+                    name=f"otal players online..."
                 )
             )
             logger.info("Successfully updated bot status")
