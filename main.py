@@ -3,13 +3,13 @@ from discord.ext import commands, tasks
 import requests
 import os
 
-# Bot setup
+# Bot setup with minimal required intents
 intents = discord.Intents.default()
-intents.message_content = True
+intents.message_content = True  # We need this for the !players command
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 # URL for the API
-API_URL = "https://2004scape.org/api/v1/worldlist"  # Replace with your actual API endpoint
+API_URL = "YOUR_API_ENDPOINT_HERE"  # Replace with your actual API endpoint
 
 async def fetch_total_players():
     try:
@@ -27,6 +27,7 @@ async def fetch_total_players():
 @bot.event
 async def on_ready():
     print(f'{bot.user} has connected to Discord!')
+    print(f'Bot is in {len(bot.guilds)} guilds')
     update_status.start()
 
 @tasks.loop(minutes=5)  # Updates every 5 minutes
@@ -49,10 +50,10 @@ async def get_players(ctx):
         await ctx.send("Unable to fetch player count at this time.")
 
 if __name__ == "__main__":
-    # Get the token from environment variable
     token = os.getenv('DISCORD_TOKEN')
+    
     if not token:
         raise ValueError("No Discord token found. Make sure to set the DISCORD_TOKEN environment variable.")
     
-    # Run the bot
+    print("Starting bot...")
     bot.run(token)
