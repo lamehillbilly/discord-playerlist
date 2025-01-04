@@ -2,10 +2,6 @@ import discord
 from discord.ext import commands, tasks
 import requests
 import os
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
 
 # Bot setup
 intents = discord.Intents.default()
@@ -18,7 +14,7 @@ API_URL = "https://2004scape.org/api/v1/worldlist"  # Replace with your actual A
 async def fetch_total_players():
     try:
         response = requests.get(API_URL)
-        response.raise_for_status()  # Raise an exception for bad status codes
+        response.raise_for_status()
         data = response.json()
         
         # Sum up all player counts
@@ -52,5 +48,11 @@ async def get_players(ctx):
     else:
         await ctx.send("Unable to fetch player count at this time.")
 
-# Run the bot
-bot.run(os.getenv('DISCORD_TOKEN'))
+if __name__ == "__main__":
+    # Get the token from environment variable
+    token = os.getenv('DISCORD_TOKEN')
+    if not token:
+        raise ValueError("No Discord token found. Make sure to set the DISCORD_TOKEN environment variable.")
+    
+    # Run the bot
+    bot.run(token)
